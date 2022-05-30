@@ -314,10 +314,10 @@
      */
     #define ERASE_IN_LINE(code) printf("\x1b[%dK", code)
 
-/**
+    /**
      * @brief Erases the visible screen
      * 
      */
-    #define ERASE_SCREEN printf("\033[H\033[J")
+    #define ERASE_SCREEN printf("\x1b[H\x1b[J")
 
 #endif
