@@ -194,47 +194,6 @@
     /* ===================================== SCREEN MODE ===================================== */
 
     /**
-     * @brief The codes of the Screen Sequences.
-     * 
-     */
-    enum SCREEN_CODE{
-        MONOCHROME_40_25 = 0,
-        COLOUR_40_25 = 1,
-        
-        MONOCHROME_80_25 = 2,
-        COLOUR_80_25 = 3,
-        
-        MONOCHROME_320_200 = 5,
-        COLOUR4_320_200 = 4,
-        COLOUR16_320_200 = 13,
-        COLOUR256_320_200 = 19,
-
-        MONOCHROME_640_200 = 6,
-        COLOUR_640_200 = 14,
-
-        MONOCHROME_640_350 = 15,
-        COLOUR_640_350 = 16,
-
-        MONOCHROME_640_480 = 17,
-        COLOUR_640_480 = 18,
-
-        LINE_WRAP = 7
-    };
-
-    /**
-     * @brief Sets the screen mode using the SCREEN_CODE enum.
-     * @param code the SCREEN_CODE enum value.
-     * @b NOTE: Given any value above 20, the command will set the screen size to the value.
-     */
-    #define SET_SCREEN_MODE(code) printf("\x1b[=%dh", code)
-    
-    /**
-     * @brief Resets the screen mode using the SCREEN_CODE enum.
-     * @param code the SCREEN_CODE enum value.
-     */
-    #define RESET_SCREEN_MODE(code) printf("\x1b[=%dl", code)
-
-    /**
      * @brief Moves cursor to the (line, column) position.
      * @param line The line to move the cursor to.
      * @param column The column to move the cursor to.
