@@ -13,7 +13,7 @@
 #define HELLO_WORLDn printf("Hello, World!\n")
 
 /**
- * NOTE: If buffer overflows, the ERASE functions don't catch it.
+ * NOTE: If buffer overflows, the ERASE functions doesn't erase prior to the last shown line.
  * 
  */
 
@@ -118,9 +118,6 @@ int main()
     RESET_GRAPHICS_MODES;
     MOVE_CURSOR_TO_POS(0, 0);
     ERASE_SCREEN;
-
-
-
 
     resetConsole();
 }
