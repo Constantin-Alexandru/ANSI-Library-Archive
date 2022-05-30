@@ -5,6 +5,11 @@
     #define _CRT_SECURE_NO_WARNINGS  1
     #include <windows.h>
 
+    #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+        #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+    #endif
+
+
     #define WIN_ERR exit(GetLastError())
 #endif
 
@@ -167,7 +172,7 @@
         HIDDEN_MODE_RESET = 28,
         STRIKETHROUGH_MODE_RESET = 29,
         //Only works on some terminals
-        DOUBLE_UNDERLINE_MODE = UNDERLINE_MODE_RESET
+        DOUBLE_UNDERLINE_MODE_RESET = UNDERLINE_MODE_RESET
     };
 
     /**
@@ -181,7 +186,7 @@
      * @brief Resets all graphics modes and colours.
      * 
      */
-    #define RESET_GRAPHICS_MODES printf("\x1b[0m", code)
+    #define RESET_GRAPHICS_MODES printf("\x1b[0m")
 
     /* ===================================== SCREEN MODE ===================================== */
 
@@ -226,11 +231,6 @@
      */
     #define RESET_SCREEN_MODE(code) printf("\x1b[=%dl", code)
 
-    /**
-     * @brief Moves cursor to the (0,0) position.
-     * 
-     */
-    #define MOVE_CURSOR_TO_POS printf("\x1b[H")
     /**
      * @brief Moves cursor to the (line, column) position.
      * @param line The line to move the cursor to.
@@ -301,13 +301,13 @@
      * @brief Erases the screen based on the value from the ERASE_CODE enum.
      * @param code The code from the ERASE_CODE enum.
      */
-    #define ERASE_IN_SCREEN(code) printf("\x1b[$dJ", code)
+    #define ERASE_IN_SCREEN(code) printf("\x1b[%dJ", code)
     /**
      * @brief Erases the line based on the value from the ERASE_CODE enum.
      * @param code The code from the ERASE_CODE enum.
      * @b NOTE: The cursor won't move positions after the erase.
      */
-    #define ERASE_IN_LINE(code) printf("\x1b[$dK", code)
+    #define ERASE_IN_LINE(code) printf("\x1b[%dK", code)
 
 
 #endif
