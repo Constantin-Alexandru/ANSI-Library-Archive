@@ -1,3 +1,4 @@
 *.exe
 main.c
 test
+.vscode/*

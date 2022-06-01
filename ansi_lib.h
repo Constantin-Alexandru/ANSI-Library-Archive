@@ -152,7 +152,7 @@
      * @brief The codes of the Graphics Sequences.
      * 
      */
-    enum GRAPHIC_MODE{
+    enum GRAPHIC_CODE{
         //Graphic sequences.
         BOLD_MODE = 1,
         DIM_MODE = 2,
@@ -191,7 +191,7 @@
      */
     #define RESET_GRAPHICS_MODES printf("\x1b[0m")
 
-    /* ===================================== SCREEN MODE ===================================== */
+    /* ===================================== CURSOR MODE ===================================== */
 
     /**
      * @brief Moves cursor to the (line, column) position.
