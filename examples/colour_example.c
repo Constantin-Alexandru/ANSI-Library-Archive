@@ -3,6 +3,8 @@
 
 #ifdef _WIN32
     #include <Windows.h>
+
+    #define sleep(i) Sleep(i * 1000);
 #else 
     #include <unistd.h>
 #endif

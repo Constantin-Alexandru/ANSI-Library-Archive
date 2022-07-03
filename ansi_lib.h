@@ -35,7 +35,7 @@
      * @brief Sets the Windows console to allow virtual terminal codes.
      * 
      */
-    void setupConsole(void){
+    inline void setupConsole(void){
         DWORD outMode = 0;
         stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -56,7 +56,7 @@
      * @brief Resets the console to the inital state without the virtual terminal codes.
      * 
      */
-    void resetConsole(void){
+    inline void resetConsole(void){
 
         //Resets the console attributes to white text and black background.
         printf("\x1b[0m");
@@ -71,7 +71,7 @@
      * @brief Resets the console to the inital state without the virtual terminal codes.
      * 
      */
-    void resetConsole(void){
+    inline void resetConsole(void){
         //Resets the console attributes to white text and black background.
         printf("\x1b[0m");
     }
