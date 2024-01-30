@@ -1,11 +1,9 @@
 {
-  "name": "@thereal_infinite/ansi-library",
+  "name": "ansi-library",
   "version": "1.0.0",
   "description": "An implementation of the ANSI Escape Codes for terminal",
   "main": "ansi_lib.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Constantin-Alexandru/ANSI-Library.git"
