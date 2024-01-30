@@ -27,7 +27,7 @@ static DWORD outputModeInitial;
 /**
  * @brief Sets the console to an initial state
  */
-inline static void setupConsole(void) {
+static void setupConsole(void) {
   DWORD outputMode = 0;
   stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -51,7 +51,7 @@ inline static void setupConsole(void) {
 /**
  * @brief Resets the console to the initial state
  */
-inline static void resetConsole(void) {
+static void resetConsole(void) {
   printf("\x1b[0m");
   if (!SetConsoleMode(stdOutputHandle, outputModeInitial)) {
     WIN_ERR;
@@ -63,12 +63,12 @@ inline static void resetConsole(void) {
 /**
  * @brief Sets the console to an initial state
  */
-inline static void setupConsole(void) {}
+static void setupConsole(void) {}
 
 /**
  * @brief Resets the console to the initial state
  */
-inline static void resetConsole(void) { printf("\x1b[0m"); }
+static void resetConsole(void) { printf("\x1b[0m"); }
 
 #endif
 
@@ -106,9 +106,7 @@ enum COLOR_4_BIT {
  *
  * @param color the color code value
  */
-inline void SET_FOUR_BIT_COLOR(enum COLOR_4_BIT color) {
-  printf("\x1b[%dm", color);
-}
+void SET_FOUR_BIT_COLOR(enum COLOR_4_BIT color) { printf("\x1b[%dm", color); }
 
 /**
  * @brief Contain the first 16 values of the 8-bit color codes
@@ -141,7 +139,7 @@ typedef unsigned char uchar;
  *
  * @param color the color code value
  */
-inline void SET_EIGHT_BIT_TEXT_COLOR(enum COLOR_8_BIT color) {
+void SET_EIGHT_BIT_TEXT_COLOR(enum COLOR_8_BIT color) {
   printf("\x1b[38;5;%dm", color);
 }
 /**
@@ -149,7 +147,7 @@ inline void SET_EIGHT_BIT_TEXT_COLOR(enum COLOR_8_BIT color) {
  *
  *  @param color the color code value
  */
-inline void SET_EIGHT_BIT_TEXT_COLOR_NUM(uchar color) {
+void SET_EIGHT_BIT_TEXT_COLOR_NUM(uchar color) {
   printf("\x1b[38;5;%dm", color);
 }
 
@@ -158,7 +156,7 @@ inline void SET_EIGHT_BIT_TEXT_COLOR_NUM(uchar color) {
  *
  * @param color the color code value
  */
-inline void SET_EIGHT_BIT_BKG_COLOR(enum COLOR_8_BIT color) {
+void SET_EIGHT_BIT_BKG_COLOR(enum COLOR_8_BIT color) {
   printf("\x1b[48;5;%dm", color);
 }
 /**
@@ -166,7 +164,7 @@ inline void SET_EIGHT_BIT_BKG_COLOR(enum COLOR_8_BIT color) {
  *
  * @param color the color code value
  */
-inline void SET_EIGHT_BIT_BKG_COLOR_NUM(uchar color) {
+void SET_EIGHT_BIT_BKG_COLOR_NUM(uchar color) {
   printf("\x1b[48;5;%dm", color);
 }
 
@@ -179,7 +177,7 @@ inline void SET_EIGHT_BIT_BKG_COLOR_NUM(uchar color) {
  *
  * @note Only works in terminals that support Truecolor.
  */
-inline void SET_RGB_TEXT_COLOR(uchar r, uchar g, uchar b) {
+void SET_RGB_TEXT_COLOR(uchar r, uchar g, uchar b) {
   printf("\x1b[38;2;%d;%d;%dm", r, g, b);
 }
 
@@ -191,7 +189,7 @@ inline void SET_RGB_TEXT_COLOR(uchar r, uchar g, uchar b) {
  *
  * @note Only works in terminals that support Truecolor.
  */
-inline void SET_RGB_TEXT_COLOR_ARR(uchar color[3]) {
+void SET_RGB_TEXT_COLOR_ARR(uchar color[3]) {
   printf("\x1b[38;2;%d;%d;%dm", color[0], color[1], color[2]);
 }
 
@@ -204,7 +202,7 @@ inline void SET_RGB_TEXT_COLOR_ARR(uchar color[3]) {
  *
  * @note Only works in terminals that support Truecolor.
  */
-inline void SET_RGB_BKG_COLOR(uchar r, uchar g, uchar b) {
+void SET_RGB_BKG_COLOR(uchar r, uchar g, uchar b) {
   printf("\x1b[48;2;%d;%d;%dm", r, g, b);
 }
 
@@ -216,7 +214,7 @@ inline void SET_RGB_BKG_COLOR(uchar r, uchar g, uchar b) {
  *
  * @note Only works in terminals that support Truecolor.
  */
-inline void SET_RGB_BKG_COLOR_ARR(uchar color[3]) {
+void SET_RGB_BKG_COLOR_ARR(uchar color[3]) {
   printf("\x1b[48;2;%d;%d;%dm", color[0], color[1], color[2]);
 }
 
@@ -252,12 +250,12 @@ enum TEXT_EFFECTS {
  *
  * @param effect the effect to be applied to text.
  */
-inline void SET_EFFECT(enum TEXT_EFFECTS effect) { printf("\x1b[%dm", effect); }
+void SET_EFFECT(enum TEXT_EFFECTS effect) { printf("\x1b[%dm", effect); }
 
 /**
  * @brief Reset the effects and colors applied to the terminal.
  */
-inline void RESET_TEXT(void) { printf("\x1b[0m"); }
+void RESET_TEXT(void) { printf("\x1b[0m"); }
 
 /* ===== CURSOR MOVEMENT =====*/
 
@@ -269,7 +267,7 @@ typedef unsigned int uint;
  * @param line the line the cursor will be positioned on
  * @param column the column the cursor will be positioned on
  */
-inline void MOVE_CURSOR_TO_POSITION(uint line, uint column) {
+void MOVE_CURSOR_TO_POSITION(uint line, uint column) {
   printf("\x1b[%d;%dH", line, column);
 }
 
@@ -278,28 +276,28 @@ inline void MOVE_CURSOR_TO_POSITION(uint line, uint column) {
  *
  * @param n the number of lines to move the cursor up by
  */
-inline void MOVE_CURSOR_UP_BY_N(uint n) { printf("\x1b[%dA", n); }
+void MOVE_CURSOR_UP_BY_N(uint n) { printf("\x1b[%dA", n); }
 
 /**
  * @brief Move cursor down a number of lines
  *
  * @param n the number of lines to move the cursor down by
  */
-inline void MOVE_CURSOR_DOWN_BY_N(uint n) { printf("\x1b[%dB", n); }
+void MOVE_CURSOR_DOWN_BY_N(uint n) { printf("\x1b[%dB", n); }
 
 /**
  * @brief Move cursor right a number of columns
  *
  * @param n the number of columns to move the cursor up by
  */
-inline void MOVE_CURSOR_RIGHT_BY_N(uint n) { printf("\x1b[%dC", n); }
+void MOVE_CURSOR_RIGHT_BY_N(uint n) { printf("\x1b[%dC", n); }
 
 /**
  * @brief Move cursor down a number of lines
  *
  * @param n the number of lines to move the cursor down by
  */
-inline void MOVE_CURSOR_LEFT_BY_N(uint n) { printf("\x1b[%dD", n); }
+void MOVE_CURSOR_LEFT_BY_N(uint n) { printf("\x1b[%dD", n); }
 
 /**
  * @brief The mode in which the erase function will be executed
@@ -316,7 +314,7 @@ enum ERASE_MODE {
  *
  * @param mode the mode in which the erase function will be executed
  */
-inline void ERASE_SCREEN(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
+void ERASE_SCREEN(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
 
 /**
  * @brief Erases the line based on the mode selected
@@ -324,12 +322,12 @@ inline void ERASE_SCREEN(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
  * @param mode the mode in which the erase function will be executed
  * @note The cursor's position won't be affected by this
  */
-inline void ERASE_LINE(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
+void ERASE_LINE(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
 
 /**
  * @brief Erases the entire screen
  *
  */
-inline void ERASE_ENTIRE_SCREEN(void) { ERASE_SCREEN(ALL); }
+void ERASE_ENTIRE_SCREEN(void) { ERASE_SCREEN(ALL); }
 
 #endif
