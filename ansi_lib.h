@@ -106,7 +106,9 @@ enum COLOR_4_BIT {
  *
  * @param color the color code value
  */
-inline void SET_FOUR_BIT_COLOR(COLOR_4_BIT color) { printf("\x1b[%dm", color); }
+inline void SET_FOUR_BIT_COLOR(enum COLOR_4_BIT color) {
+  printf("\x1b[%dm", color);
+}
 
 /**
  * @brief Contain the first 16 values of the 8-bit color codes
@@ -132,14 +134,14 @@ enum COLOR_8_BIT {
   CYAN = 14
 };
 
-#define uchar unsigned char
+typedef unsigned char uchar;
 
 /**
  * @brief Set the font color using the 8-bit color codes
  *
  * @param color the color code value
  */
-inline void SET_EIGHT_BIT_TEXT_COLOR(COLOR_8_BIT color) {
+inline void SET_EIGHT_BIT_TEXT_COLOR(enum COLOR_8_BIT color) {
   printf("\x1b[38;5;%dm", color);
 }
 /**
@@ -156,7 +158,7 @@ inline void SET_EIGHT_BIT_TEXT_COLOR(uchar color) {
  *
  * @param color the color code value
  */
-inline void SET_EIGHT_BIT_BKG_COLOR(COLOR_8_BIT color) {
+inline void SET_EIGHT_BIT_BKG_COLOR(enum COLOR_8_BIT color) {
   printf("\x1b[48;5;%dm", color);
 }
 /**
@@ -250,7 +252,7 @@ enum TEXT_EFFECTS {
  *
  * @param effect the effect to be applied to text.
  */
-inline void SET_TRANSFORM(TEXT_EFFECTS effect) { printf("\x1b[%dm", effect); }
+inline void SET_EFFECT(enum TEXT_EFFECTS effect) { printf("\x1b[%dm", effect); }
 
 /**
  * @brief Reset the effects and colors applied to the terminal.
@@ -259,7 +261,7 @@ inline void RESET_TEXT(void) { printf("\x1b[0m"); }
 
 /* ===== CURSOR MOVEMENT =====*/
 
-#define uint unsigned int
+typedef unsigned int uint;
 
 /**
  * @brief Move cursor to the coordinates (line, column).
@@ -314,7 +316,7 @@ enum ERASE_MODE {
  *
  * @param mode the mode in which the erase function will be executed
  */
-inline void ERASE_SCREEN(ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
+inline void ERASE_SCREEN(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
 
 /**
  * @brief Erases the line based on the mode selected
@@ -322,12 +324,12 @@ inline void ERASE_SCREEN(ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
  * @param mode the mode in which the erase function will be executed
  * @note The cursor's position won't be affected by this
  */
-inline void ERASE_LINE(ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
+inline void ERASE_LINE(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
 
 /**
  * @brief Erases the entire screen
  *
  */
-inline void ERASE_SCREEN(void) { ERASE_SCREEN(ERASE_MODE::ALL); }
+inline void ERASE_SCREEN(void) { ERASE_SCREEN(ALL); }
 
 #endif
