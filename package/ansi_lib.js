@@ -84,7 +84,7 @@ exports.SET_EFFECT = function (effect) {
 };
 
 exports.RESET_TEXT = function () {
-  SET_EFFECT(0);
+  console.log(`${ESC}0m`);
 };
 
 exports.MOVE_CURSOR_TO_POSITION = function (line, column) {
@@ -122,5 +122,5 @@ exports.ERASE_LINE = function (mode) {
 };
 
 exports.ERASE_ENTIRE_SCREEN = function () {
-  ERASE_SCREEN(ERASE_MODE.ALL);
+  console.log(`${ESC}2J`);
 };
