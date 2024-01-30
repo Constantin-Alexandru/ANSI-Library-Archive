@@ -322,7 +322,7 @@ void ERASE_SCREEN(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
  * @param mode the mode in which the erase function will be executed
  * @note The cursor's position won't be affected by this
  */
-void ERASE_LINE(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
+void ERASE_LINE(enum ERASE_MODE mode) { printf("\x1b[%dK", mode); }
 
 /**
  * @brief Erases the entire screen
