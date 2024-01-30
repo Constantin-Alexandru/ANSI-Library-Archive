@@ -1,3 +1,5 @@
+const process = require("node:process");
+
 const ESC = "\x1b[";
 
 exports.COLOR_4_BIT = {
@@ -25,7 +27,7 @@ exports.COLOR_4_BIT = {
 };
 
 exports.SET_FOUR_BIT_COLOR = function (color) {
-  console.log(`${ESC}${color}m`);
+  process.stdout.write(`${ESC}${color}m`);
 };
 
 exports.COLOR_8_BIT = {
@@ -50,11 +52,19 @@ exports.COLOR_8_BIT = {
 };
 
 exports.SET_EIGHT_BIT_TEXT_COLOR = function (color) {
-  console.log(`${ESC}38;5;${color}m`);
+  process.stdout.write(`${ESC}38;5;${color}m`);
 };
 
 exports.SET_EIGHT_BIT_BKG_COLOR = function (color) {
-  console.log(`${ESC}48;5;${color}m`);
+  process.stdout.write(`${ESC}48;5;${color}m`);
+};
+
+exports.SET_RGB_TEXT_COLOR = function (r, g, b) {
+  process.stdout.write(`${ESC}38;2;${r};${g};${b}m`);
+};
+
+exports.SET_RGB_BKG_COLOR = function (r, g, b) {
+  process.stdout.write(`${ESC}48;2;${r};${g};${b}m`);
 };
 
 exports.TEXT_EFFECTS = {
@@ -80,31 +90,31 @@ exports.TEXT_EFFECTS = {
 };
 
 exports.SET_EFFECT = function (effect) {
-  console.log(`${ESC}${effect}m`);
+  process.stdout.write(`${ESC}${effect}m`);
 };
 
 exports.RESET_TEXT = function () {
-  console.log(`${ESC}0m`);
+  process.stdout.write(`${ESC}0m`);
 };
 
 exports.MOVE_CURSOR_TO_POSITION = function (line, column) {
-  console.log(`${ESC}${line};${column}H`);
+  process.stdout.write(`${ESC}${line};${column}H`);
 };
 
 exports.MOVE_CURSOR_UP_BY_N = function (n) {
-  console.log(`${ESC}${n}A`);
+  process.stdout.write(`${ESC}${n}A`);
 };
 
 exports.MOVE_CURSOR_DOWN_BY_N = function (n) {
-  console.log(`${ESC}${n}B`);
+  process.stdout.write(`${ESC}${n}B`);
 };
 
 exports.MOVE_CURSOR_RIGHT_BY_N = function (n) {
-  console.log(`${ESC}${n}C`);
+  process.stdout.write(`${ESC}${n}C`);
 };
 
 exports.MOVE_CURSOR_LEFT_BY_N = function (n) {
-  console.log(`${ESC}${n}D`);
+  process.stdout.write(`${ESC}${n}D`);
 };
 
 exports.ERASE_MODE = {
@@ -114,13 +124,13 @@ exports.ERASE_MODE = {
 };
 
 exports.ERASE_SCREEN = function (mode) {
-  console.log(`${ESC}${mode}J`);
+  process.stdout.write(`${ESC}${mode}J`);
 };
 
 exports.ERASE_LINE = function (mode) {
-  console.log(`${ESC}${mode}K`);
+  process.stdout.write(`${ESC}${mode}K`);
 };
 
 exports.ERASE_ENTIRE_SCREEN = function () {
-  console.log(`${ESC}2J`);
+  process.stdout.write(`${ESC}2J`);
 };
