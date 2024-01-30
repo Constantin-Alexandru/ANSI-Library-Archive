@@ -63,12 +63,12 @@ inline static void resetConsole(void) {
 /**
  * @brief Sets the console to an initial state
  */
-inline void setupConsole(void) {}
+inline static void setupConsole(void) {}
 
 /**
  * @brief Resets the console to the initial state
  */
-inline void resetConsole(void) { printf("\x1b[0m"); }
+inline static void resetConsole(void) { printf("\x1b[0m"); }
 
 #endif
 
