@@ -27,7 +27,7 @@ static DWORD outputModeInitial;
 /**
  * @brief Sets the console to an initial state
  */
-inline void setupConsole(void) {
+inline static void setupConsole(void) {
   DWORD outputMode = 0;
   stdOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -51,7 +51,7 @@ inline void setupConsole(void) {
 /**
  * @brief Resets the console to the initial state
  */
-inline void resetConsole(void) {
+inline static void resetConsole(void) {
   printf("\x1b[0m");
   if (!SetConsoleMode(stdOutputHandle, outputModeInitial)) {
     WIN_ERR;
@@ -149,7 +149,7 @@ inline void SET_EIGHT_BIT_TEXT_COLOR(enum COLOR_8_BIT color) {
  *
  *  @param color the color code value
  */
-inline void SET_EIGHT_BIT_TEXT_COLOR(uchar color) {
+inline void SET_EIGHT_BIT_TEXT_COLOR_NUM(uchar color) {
   printf("\x1b[38;5;%dm", color);
 }
 
@@ -166,7 +166,7 @@ inline void SET_EIGHT_BIT_BKG_COLOR(enum COLOR_8_BIT color) {
  *
  * @param color the color code value
  */
-inline void SET_EIGHT_BIT_BKG_COLOR(uchar color) {
+inline void SET_EIGHT_BIT_BKG_COLOR_NUM(uchar color) {
   printf("\x1b[48;5;%dm", color);
 }
 
@@ -191,7 +191,7 @@ inline void SET_RGB_TEXT_COLOR(uchar r, uchar g, uchar b) {
  *
  * @note Only works in terminals that support Truecolor.
  */
-inline void SET_RGB_TEXT_COLOR(uchar color[3]) {
+inline void SET_RGB_TEXT_COLOR_ARR(uchar color[3]) {
   printf("\x1b[38;2;%d;%d;%dm", color[0], color[1], color[2]);
 }
 
@@ -216,7 +216,7 @@ inline void SET_RGB_BKG_COLOR(uchar r, uchar g, uchar b) {
  *
  * @note Only works in terminals that support Truecolor.
  */
-inline void SET_RGB_BACKGROUND_COLOR(uchar color[3]) {
+inline void SET_RGB_BKG_COLOR_ARR(uchar color[3]) {
   printf("\x1b[48;2;%d;%d;%dm", color[0], color[1], color[2]);
 }
 
@@ -330,6 +330,6 @@ inline void ERASE_LINE(enum ERASE_MODE mode) { printf("\x1b[%dJ", mode); }
  * @brief Erases the entire screen
  *
  */
-inline void ERASE_SCREEN(void) { ERASE_SCREEN(ALL); }
+inline void ERASE_ENTIRE_SCREEN(void) { ERASE_SCREEN(ALL); }
 
 #endif
