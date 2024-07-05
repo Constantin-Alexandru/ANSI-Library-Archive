@@ -9,57 +9,56 @@ void nextScreen(void) {
 
   getchar();
 
-  ERASE_ENTIRE_SCREEN();
-  MOVE_CURSOR_TO_POSITION(0, 0);
+  ClearScreen(ALL);
+  gotoXY(0, 0);
 }
 
 int main(int argc, char const *argv[]) {
   setupConsole();
-  ERASE_ENTIRE_SCREEN();
+  ClearScreen(ALL);
 
-  SET_EFFECT(BOLD);
+  SetEffect(BOLD);
   printf("ANSI LIB SHOWCASE");
-  SET_EFFECT(BOLD_RESET);
-  MOVE_CURSOR_DOWN_BY_N(3);
-  MOVE_CURSOR_LEFT_BY_N(50);
+  SetEffect(BOLD_RESET);
+  goDownN(3);
+  goLeftN(50);
 
-  printf(
-      "This project was created to showcase the ANSI LIBRARY and it's "
-      "features.\n");
+  printf("This project was created to showcase the ANSI LIBRARY and it's "
+         "features.\n");
 
   printf("The main feature of this library is the ability to change colors.\n");
 
-  MOVE_CURSOR_DOWN_BY_N(2);
+  goDownN(2);
 
   nextScreen();
 
-  printf(
-      "You have 4-bit colors that can be used for both background and "
-      "foreground:\n\n");
+  printf("You have a predefined set of colors that can be used for both "
+         "background and "
+         "foreground:\n\n");
 
   for (int text_color = 30; text_color < 38; text_color++) {
-    SET_FOUR_BIT_COLOR((enum COLOR_4_BIT)text_color);
+    SetColor((Colors)text_color);
     for (int background_color = 40; background_color < 48; background_color++) {
       // if (background_color - text_color == 10) continue;
 
-      SET_FOUR_BIT_COLOR((enum COLOR_4_BIT)background_color);
+      SetColor((Colors)background_color);
       printf("  %d", text_color);
-      SET_FOUR_BIT_COLOR((enum COLOR_4_BIT)BKG_DEFAULT);
+      SetColor((Colors)BKG_DEFAULT);
     }
     printf("\n");
-    SET_FOUR_BIT_COLOR((enum COLOR_4_BIT)TXT_DEFAULT);
+    SetColor((Colors)TXT_DEFAULT);
   }
 
   nextScreen();
 
-  printf(
-      "You have 8-bit colors that can be used for both background and "
-      "foreground:\n\n");
+  printf("You have the 256-color mode that can be used for both background and "
+         "foreground:\n\n");
 
   for (int color = 0; color < 256; color++) {
-    if (color % 16 == 0) printf("\n");
-    SET_EIGHT_BIT_TEXT_COLOR_NUM(color);
-    SET_EIGHT_BIT_BKG_COLOR_NUM(255 - color);
+    if (color % 16 == 0)
+      printf("\n");
+    SetText256Color(color);
+    SetBackground256Color(255 - color);
     printf("%*d ", 3, color);
   }
 
@@ -67,9 +66,8 @@ int main(int argc, char const *argv[]) {
 
   nextScreen();
 
-  printf(
-      "Some terminals also support Truecolor values for background and "
-      "foreground:\n\n");
+  printf("Some terminals also support Truecolor values for background and "
+         "foreground:\n\n");
 
   srand(time(NULL));
 
@@ -78,47 +76,47 @@ int main(int argc, char const *argv[]) {
     uint g = rand() % 256;
     uint b = rand() % 256;
 
-    SET_RGB_TEXT_COLOR(r, g, b);
-    SET_RGB_BKG_COLOR(255 - r, 255 - g, 255 - b);
+    SetTextRGBColor(r, g, b);
+    SetBackgroundRGBColor(255 - r, 255 - g, 255 - b);
     printf("%*d - %*d - %*d\n", 3, r, 3, g, 3, b);
   }
-  RESET_TEXT();
+  Reset();
   nextScreen();
 
   printf("The library also offers effects that can be applied to text:\n\n");
 
-  SET_EFFECT(BOLD);
+  SetEffect(BOLD);
   printf("- BOLD\n");
-  SET_EFFECT(BOLD_RESET);
+  SetEffect(BOLD_RESET);
 
-  SET_EFFECT(DIM);
+  SetEffect(DIM);
   printf("- DIM\n");
-  SET_EFFECT(DIM_RESET);
+  SetEffect(DIM_RESET);
 
-  SET_EFFECT(ITALIC);
+  SetEffect(ITALIC);
   printf("- ITALIC\n");
-  SET_EFFECT(ITALIC_RESET);
+  SetEffect(ITALIC_RESET);
 
-  SET_EFFECT(INVERSE);
+  SetEffect(INVERSE);
   printf("- INVERSE\n");
-  SET_EFFECT(INVERSE_RESET);
+  SetEffect(INVERSE_RESET);
 
-  SET_EFFECT(HIDDEN);
+  SetEffect(HIDDEN);
   printf("- HIDDEN");
-  SET_EFFECT(HIDDEN_RESET);
+  SetEffect(HIDDEN_RESET);
   printf("(HIDDEN)\n");
 
-  SET_EFFECT(UNDERLINE);
+  SetEffect(UNDERLINE);
   printf("- UNDERLINE\n");
-  SET_EFFECT(UNDERLINE_RESET);
+  SetEffect(UNDERLINE_RESET);
 
-  SET_EFFECT(STRIKETHROUGH);
+  SetEffect(STRIKETHROUGH);
   printf("- STRIKETHROUGH\n");
-  SET_EFFECT(STRIKETHROUGH_RESET);
+  SetEffect(STRIKETHROUGH_RESET);
 
-  SET_EFFECT(DOUBLE_UNDERLINE);
+  SetEffect(DOUBLE_UNDERLINE);
   printf("- DOUBLE UNDERLINE\n");
-  SET_EFFECT(DOUBLE_UNDERLINE_RESET);
+  SetEffect(DOUBLE_UNDERLINE_RESET);
 
   nextScreen();
 
@@ -128,19 +126,19 @@ int main(int argc, char const *argv[]) {
 
   getchar();
 
-  MOVE_CURSOR_DOWN_BY_N(5);
+  goDownN(5);
 
   getchar();
 
-  MOVE_CURSOR_RIGHT_BY_N(5);
+  goRightN(5);
 
   getchar();
 
-  MOVE_CURSOR_UP_BY_N(5);
+  goUpN(5);
 
   getchar();
 
-  MOVE_CURSOR_LEFT_BY_N(5);
+  goLeftN(5);
 
   printf("\n\n");
 
