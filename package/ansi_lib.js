@@ -227,3 +227,36 @@ exports.Clear = function () {
 exports.ClearLine = function (mode) {
   process.stdout.write(`${ESC}${mode}K`);
 };
+
+/** @enum {number} */
+const Type = {
+  COLOR: 0,
+  COLOR_256_TXT: 1,
+  COLOR_256_BKG: 2,
+  COLOR_RGB_TXT: 3,
+  COLOR_RGB_BKG: 4,
+};
+
+/**
+ * Returns the color as a string
+ * @param {Colors | RGB} color - The color to be added to the string
+ * @param {Type} type - The type of color to be set
+ *
+ * @returns {string} the color string
+ */
+exports.getColorString = function (color, type) {
+  switch (type) {
+    case Type.COLOR:
+      return `${ESC}${color}m`;
+    case Type.COLOR_256_TXT:
+      return `${ESC}38;5;${color}m`;
+    case Type.COLOR_256_BKG:
+      return `${ESC}48;5;${color}m`;
+    case Type.COLOR_RGB_TXT:
+      return `${ESC}38;2;${color.r};${color.g};${color.b}m`;
+    case Type.COLOR_RGB_BKG:
+      return `${ESC}48;2;${color.r};${color.g};${color.b}m`;
+    default:
+      return "";
+  }
+};
