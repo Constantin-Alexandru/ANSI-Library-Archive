@@ -237,6 +237,8 @@ const Type = {
   COLOR_RGB_BKG: 4,
 };
 
+exports.Type = Type;
+
 /**
  * Returns the color as a string
  * @param {Colors | RGB} color - The color to be added to the string
