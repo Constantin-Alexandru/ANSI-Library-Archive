@@ -1,8 +1,13 @@
+const assert = require("node:assert/strict");
 const process = require("node:process");
 
+/** @type {string} */
 const ESC = "\x1b[";
 
-exports.COLOR_4_BIT = {
+/** @enum {number} */
+exports.Colors = {
+  RESET: 0,
+
   TXT_BLACK: 30,
   TXT_RED: 31,
   TXT_GREEN: 32,
@@ -26,111 +31,199 @@ exports.COLOR_4_BIT = {
   BKG_DEFAULT: 49,
 };
 
-exports.SET_FOUR_BIT_COLOR = function (color) {
-  process.stdout.write(`${ESC}${color}m`);
-};
-
-exports.COLOR_8_BIT = {
-  BLACK: 0,
-  WHITE: 15,
-
-  DARK_RED: 1,
-  DARK_GREEN: 2,
-  DARK_YELLOW: 3,
-  DARK_BLUE: 4,
-  DARK_CYAN: 6,
-  DARK_GRAY: 8,
-
-  PURPLE: 5,
-  GRAY: 7,
-  RED: 9,
-  GREEN: 10,
-  YELLOW: 11,
-  BLUE: 12,
-  PINK: 13,
-  CYAN: 14,
-};
-
-exports.SET_EIGHT_BIT_TEXT_COLOR = function (color) {
-  process.stdout.write(`${ESC}38;5;${color}m`);
-};
-
-exports.SET_EIGHT_BIT_BKG_COLOR = function (color) {
-  process.stdout.write(`${ESC}48;5;${color}m`);
-};
-
-exports.SET_RGB_TEXT_COLOR = function (r, g, b) {
-  process.stdout.write(`${ESC}38;2;${r};${g};${b}m`);
-};
-
-exports.SET_RGB_BKG_COLOR = function (r, g, b) {
-  process.stdout.write(`${ESC}48;2;${r};${g};${b}m`);
-};
-
-exports.TEXT_EFFECTS = {
+/** @enum {number} */
+exports.Effects = {
   BOLD: 1,
   DIM: 2,
   ITALIC: 3,
+  UNDERLINE: 4,
   BLINKING: 5,
   INVERSE: 7,
   HIDDEN: 8,
-  UNDERLINE: 4,
   STRIKETHROUGH: 9,
   DOUBLE_UNDERLINE: 21,
 
   BOLD_RESET: 22,
   DIM_RESET: 22,
   ITALIC_RESET: 23,
+  UNDERLINE_RESET: 24,
+  DOUBLE_UNDERLINE_RESET: 24,
   BLINKING_RESET: 25,
   INVERSE_RESET: 27,
   HIDDEN_RESET: 28,
-  UNDERLINE_RESET: 24,
   STRIKETHROUGH_RESET: 29,
-  DOUBLE_UNDERLINE_RESET: 24,
 };
 
-exports.SET_EFFECT = function (effect) {
+/**
+ * Sets the color of the terminal to the specified colors
+ *
+ * @param {Colors} color - The color to set the
+ */
+exports.SetColor = function (color) {
+  process.stdout.write(`${ESC}${color}m`);
+};
+
+/**
+ * Sets the text color of the terminal using an 8-bit value
+ *
+ * @params {number} color - The color as an 8-bit value (0 - 255)
+ */
+exports.SetText256Color = function (color) {
+  assert(color < 256, "Error: value of color should be an 8-bit value (0-255)");
+
+  process.stdout.write(`${ESC}38;5;${color}m`);
+};
+
+/**
+ * Sets the background color of the terminal using an 8-bit value
+ *
+ * @params {number} color - The color as an 8-bit value (0 - 255)
+ */
+exports.SetBackground256Color = function (color) {
+  assert(color < 256, "Error: value of color should be an 8-bit value (0-255)");
+
+  process.stdout.write(`${ESC}48;5;${color}m`);
+};
+
+/**
+ * @typedef {Object} RGB
+ * @property {number} r - The red layer
+ * @property {number} g - The green layer
+ * @property {number} b - The blue layer
+ */
+
+/**
+ * Sets the text color of the terminal using an rgb value
+ *
+ * @param {RGB} rgb - The rgb color
+ */
+exports.SetRGBTextColor = function (rgb) {
+  process.stdout.write(`${ESC}38;2;${rgb.r};${rgb.g};${rgb.b}m`);
+};
+
+/**
+ * Sets the text color of the terminal using an rgb value
+ *
+ * @param {number} r - The red layer
+ * @param {number} g - The green layer
+ * @param {number} b - The blue layer
+ */
+exports.SetRGBTextColor = function (r, g, b) {
+  SetRGBTextColor({ r: r, g: g, b: b });
+};
+
+/**
+ * Sets the background color of the terminal using an rgb value
+ *
+ * @param {RGB} rgb - The rgb color
+ */
+exports.SetRGBBackgroundColor = function (rgb) {
+  process.stdout.write(`${ESC}48;2;${rgb.r};${rgb.g};${rgb.b}m`);
+};
+
+/**
+ * Sets the background color of the terminal using an rgb value
+ *
+ * @param {number} r - The red layer
+ * @param {number} g - The green layer
+ * @param {number} b - The blue layer
+ */
+exports.SetRGBBackgroundColor = function (r, g, b) {
+  SetRGBBackgroundColor({ r: r, g: g, b: b });
+};
+
+/**
+ * Sets a text effect
+ *
+ * @param {Effects} effect
+ */
+exports.SetEffect = function (effect) {
   process.stdout.write(`${ESC}${effect}m`);
 };
 
-exports.RESET_TEXT = function () {
-  process.stdout.write(`${ESC}0m`);
+/**
+ * Resets the console to the default values.
+ */
+exports.Reset = function () {
+  process.stdout.write(`${ESC}${Colors.RESET}m`);
 };
 
-exports.MOVE_CURSOR_TO_POSITION = function (line, column) {
-  process.stdout.write(`${ESC}${line};${column}H`);
+/**
+ * Jumps to the specified coordinated inside the console.
+ *
+ * @param {number} x - the x coordinate (the column).
+ * @param {number} y - the y coordinate (the row).
+ */
+exports.gotoXY = function (x, y) {
+  process.stdout.write(`${ESC}${x};${y}H`);
 };
 
-exports.MOVE_CURSOR_UP_BY_N = function (n) {
+/**
+ * Jumps up n lines in the console.
+ *
+ * @param {number} n - the number of lines to jump
+ */
+exports.goUpN = function (n) {
   process.stdout.write(`${ESC}${n}A`);
 };
 
-exports.MOVE_CURSOR_DOWN_BY_N = function (n) {
+/**
+ * Jumps down n lines in the console.
+ *
+ * @param {number} n - the number of lines to jump
+ */
+exports.goDownN = function (n) {
   process.stdout.write(`${ESC}${n}B`);
 };
 
-exports.MOVE_CURSOR_RIGHT_BY_N = function (n) {
-  process.stdout.write(`${ESC}${n}C`);
-};
-
-exports.MOVE_CURSOR_LEFT_BY_N = function (n) {
+/**
+ * Jumps left n columns in the console.
+ *
+ * @param {number} n - the number of columns to jump
+ */
+exports.goLeftN = function (n) {
   process.stdout.write(`${ESC}${n}D`);
 };
 
-exports.ERASE_MODE = {
+/**
+ * Jumps right n columns in the console.
+ *
+ * @param {number} n - the number of columns to jump
+ */
+exports.goRightN = function (n) {
+  process.stdout.write(`${ESC}${n}C`);
+};
+
+/** @enum {number} */
+exports.EraseMode = {
+  TO_BOTTOM: 0,
   TO_END: 0,
+  TO_TOP: 1,
   TO_BEGINNING: 1,
   ALL: 2,
 };
 
-exports.ERASE_SCREEN = function (mode) {
+/**
+ * Clears the entire screen based on the mode.
+ *
+ * @param {EraseMode} mode - The erase mode.
+ */
+exports.ClearScreen = function (mode) {
   process.stdout.write(`${ESC}${mode}J`);
 };
 
-exports.ERASE_LINE = function (mode) {
-  process.stdout.write(`${ESC}${mode}K`);
+/**
+ * Clears the entire screen based on the mode.
+ */
+exports.ClearScreen = function () {
+  ClearScreen(EraseMode.ALL);
 };
 
-exports.ERASE_ENTIRE_SCREEN = function () {
-  process.stdout.write(`${ESC}2J`);
+/**
+ * Clears the entire line based on the mode.
+ *
+ * @param {EraseMode} mode - The erase mode.
+ */
+exports.ClearLine = function (mode) {
+  process.stdout.write(`${ESC}${mode}K`);
 };
