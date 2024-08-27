@@ -1,114 +1,182 @@
-const ansi_lib = require("ansi-lib/ansi_lib");
-const process = require("node:process");
+import {
+  Effects,
+  Clear,
+  gotoXY,
+  SetEffect,
+  goDownN,
+  goLeftN,
+  SetColor,
+  Colors,
+  SetText256Color,
+  SetBackground256Color,
+  SetRGBTextColorObj,
+  SetRGBBackgroundColorObj,
+  Reset,
+  goRightN,
+  goUpN,
+} from "ansi-lib";
 
-ansi_lib.ERASE_ENTIRE_SCREEN();
-ansi_lib.MOVE_CURSOR_TO_POSITION(0, 0);
+const write = process.stdout.write.bind(process.stdout);
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.BOLD);
-console.log("ANSI LIB SHOWCASE");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.BOLD_RESET);
-ansi_lib.MOVE_CURSOR_DOWN_BY_N(3);
-ansi_lib.MOVE_CURSOR_LEFT_BY_N(50);
-
-console.log(
-  "This project was created to showcase the ANSI LIBRARY and its features.\n"
-);
-
-console.log(
-  "The main feature of this library is the ability to change colors.\n"
-);
-
-ansi_lib.MOVE_CURSOR_DOWN_BY_N(2);
-
-console.log(
-  "You have 4-bit colors that can be used for both background and foreground: \n\n"
-);
-
-for (text_color = 30; text_color < 38; text_color++) {
-  ansi_lib.SET_FOUR_BIT_COLOR(text_color);
-  for (background_color = 40; background_color < 48; background_color++) {
-    ansi_lib.SET_FOUR_BIT_COLOR(background_color);
-    process.stdout.write(`${text_color.toString().padStart(4, " ")}`);
-    ansi_lib.SET_FOUR_BIT_COLOR(ansi_lib.COLOR_4_BIT.BKG_DEFAULT);
-  }
-  console.log();
-  ansi_lib.SET_FOUR_BIT_COLOR(ansi_lib.COLOR_4_BIT.TXT_DEFAULT);
-}
-
-ansi_lib.MOVE_CURSOR_DOWN_BY_N(2);
-
-console.log(
-  "You have 8-bit colors that can be used for both background and foreground: \n\n"
-);
-
-for (color = 0; color < 256; color++) {
-  if (color % 16 == 0) console.log();
-  ansi_lib.SET_EIGHT_BIT_TEXT_COLOR(color);
-  ansi_lib.SET_EIGHT_BIT_BKG_COLOR(255 - color);
-  process.stdout.write(`${color.toString().padStart(4, " ")}`);
-}
-
-console.log();
-
-ansi_lib.MOVE_CURSOR_DOWN_BY_N(2);
-
-console.log(
-  "Some terminals also support Truecolor values for background and foreground: \n\n"
-);
-
-for (iter = 0; iter < 10; iter++) {
-  r = Math.floor(Math.random() * 255);
-  g = Math.floor(Math.random() * 255);
-  b = Math.floor(Math.random() * 255);
-
-  ansi_lib.SET_RGB_TEXT_COLOR(r, g, b);
-  ansi_lib.SET_RGB_BKG_COLOR(255 - r, 255 - g, 255 - b);
-  process.stdout.write(
-    `${r.toString().padStart(3, " ")} - ${g.toString().padStart(3, " ")} - ${b
-      .toString()
-      .padStart(3, " ")}`
+const pause = async () => {
+  process.stdin.setRawMode(true);
+  return new Promise((resolve) =>
+    process.stdin.once("data", () => {
+      process.stdin.setRawMode(false);
+      resolve();
+    }),
   );
-  ansi_lib.RESET_TEXT();
-  console.log();
+};
+
+async function nextScreen() {
+  write("Press any key to continue...\n");
+  await pause();
+
+  Clear();
+  gotoXY(0, 0);
 }
 
-ansi_lib.MOVE_CURSOR_DOWN_BY_N(2);
+Clear();
+SetEffect(Effects.BOLD);
+write("ANSI LIB SHOWCASE");
+SetEffect(Effects.BOLD);
+goDownN(3);
+goLeftN(50);
 
-console.log("The library also offers effects that can be applied to text:\n\n");
+write(
+  "This project was created to showcase the ANSI LIBRARY and it's features.\n",
+);
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.BOLD);
-console.log("- BOLD");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.BOLD_RESET);
+write("The main feature of this library is the ability to change colors.\n");
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.DIM);
-console.log("- DIM");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.DIM_RESET);
+goDownN(2);
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.ITALIC);
-console.log("- ITALIC");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.ITALIC_RESET);
+await nextScreen();
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.BLINKING);
-console.log("- BLINKING");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.BLINKING_RESET);
+write(
+  "You have a predefined set of colors that can be used for both background \
+and foreground:\n\n",
+);
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.INVERSE);
-console.log("- INVERSE");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.INVERSE_RESET);
+for (let text_color = 30; text_color < 38; text_color++) {
+  SetColor(text_color);
+  for (let background_color = 40; background_color < 48; background_color++) {
+    SetColor(background_color);
+    write(`${text_color}`);
+    SetColor(Colors.BKG_DEFAULT);
+  }
+  write("\n");
+  SetColor(Colors.TXT_DEFAULT);
+}
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.HIDDEN);
-process.stdout.write("- HIDDEN");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.HIDDEN_RESET);
-console.log("(HIDDEN)");
+await nextScreen();
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.UNDERLINE);
-console.log("- UNDERLINE");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.UNDERLINE_RESET);
+write(
+  "You have the 256-color mode that can be used for both \
+background and foreground:\n\n",
+);
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.STRIKETHROUGH);
-console.log("- STRIKETHROUGH");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.STRIKETHROUGH_RESET);
+for (let color = 0; color < 256; color++) {
+  if (color % 16 === 0) {
+    write("\n");
+  }
+  SetText256Color(color);
+  SetBackground256Color(255 - color);
+  write(`${color.toString().padStart(3, " ")}`);
+}
 
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.DOUBLE_UNDERLINE);
-console.log("- DOUBLE UNDERLINE");
-ansi_lib.SET_EFFECT(ansi_lib.TEXT_EFFECTS.DOUBLE_UNDERLINE_RESET);
+write("\n");
+
+Reset();
+await nextScreen();
+
+write(
+  "Some terminals also support Truecolor values for background \
+and foreground:\n\n",
+);
+
+for (let iterations = 0; iterations < 10; iterations++) {
+  const rgb = {
+    r: Math.floor(Math.random() * 256),
+    g: Math.floor(Math.random() * 256),
+    b: Math.floor(Math.random() * 256),
+  };
+  const bkg_rgb = { r: 255 - rgb.r, g: 255 - rgb.g, b: 255 - rgb.b };
+
+  SetRGBTextColorObj(rgb);
+  SetRGBBackgroundColorObj(bkg_rgb);
+
+  write(
+    `${rgb.r.toString().padStart(3, " ")} - \
+${rgb.g.toString().padStart(3, " ")} - \
+${rgb.b.toString().padStart(3, " ")}\n`,
+  );
+}
+
+Reset();
+await nextScreen();
+
+write("The library also offers effects that can be applie to text:\n\n");
+
+SetEffect(Effects.BOLD);
+write("- BOLD\n");
+SetEffect(Effects.BOLD_RESET);
+
+SetEffect(Effects.DIM);
+write("- DIM\n");
+SetEffect(Effects.DIM_RESET);
+
+SetEffect(Effects.ITALIC);
+write("- ITALIC\n");
+SetEffect(Effects.ITALIC_RESET);
+
+SetEffect(Effects.INVERSE);
+write("- INVERSE\n");
+SetEffect(Effects.INVERSE_RESET);
+
+SetEffect(Effects.HIDDEN);
+write("- HIDDEN");
+SetEffect(Effects.HIDDEN_RESET);
+write("(HIDDEN)\n");
+
+SetEffect(Effects.UNDERLINE);
+write("- UNDERLINE\n");
+SetEffect(Effects.UNDERLINE_RESET);
+
+SetEffect(Effects.STRIKETHROUGH);
+write("- STRIKETHROUGH\n");
+SetEffect(Effects.STRIKETHROUGH_RESET);
+
+SetEffect(Effects.DOUBLE_UNDERLINE);
+write("- DOUBLE_UNDERLINE\n");
+SetEffect(Effects.DOUBLE_UNDERLINE_RESET);
+
+Reset();
+await nextScreen();
+
+write("You can also use the library to travel around with the cursor:\n\n");
+
+write("Press any key to travel around\n");
+
+await pause();
+
+goDownN(5);
+
+await pause();
+
+goRightN(5);
+
+await pause();
+
+goUpN(5);
+
+await pause();
+
+goLeftN(5);
+
+await pause();
+
+await nextScreen();
+
+Reset();
+process.exit();

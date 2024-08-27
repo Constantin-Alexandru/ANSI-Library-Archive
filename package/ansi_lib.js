@@ -57,7 +57,7 @@ exports.Effects = {
 /**
  * Sets the color of the terminal to the specified colors
  *
- * @param {Colors} color - The color to set the
+ * @param {exports.Colors. color - The color to set the
  */
 exports.SetColor = function (color) {
   process.stdout.write(`${ESC}${color}m`);
@@ -97,7 +97,7 @@ exports.SetBackground256Color = function (color) {
  *
  * @param {RGB} rgb - The rgb color
  */
-exports.SetRGBTextColor = function (rgb) {
+exports.SetRGBTextColorObj = function (rgb) {
   process.stdout.write(`${ESC}38;2;${rgb.r};${rgb.g};${rgb.b}m`);
 };
 
@@ -109,7 +109,7 @@ exports.SetRGBTextColor = function (rgb) {
  * @param {number} b - The blue layer
  */
 exports.SetRGBTextColor = function (r, g, b) {
-  SetRGBTextColor({ r: r, g: g, b: b });
+  exports.SetRGBTextColorObj({ r: r, g: g, b: b });
 };
 
 /**
@@ -117,7 +117,7 @@ exports.SetRGBTextColor = function (r, g, b) {
  *
  * @param {RGB} rgb - The rgb color
  */
-exports.SetRGBBackgroundColor = function (rgb) {
+exports.SetRGBBackgroundColorObj = function (rgb) {
   process.stdout.write(`${ESC}48;2;${rgb.r};${rgb.g};${rgb.b}m`);
 };
 
@@ -129,7 +129,7 @@ exports.SetRGBBackgroundColor = function (rgb) {
  * @param {number} b - The blue layer
  */
 exports.SetRGBBackgroundColor = function (r, g, b) {
-  SetRGBBackgroundColor({ r: r, g: g, b: b });
+  exports.SetRGBBackgroundColorObj({ r: r, g: g, b: b });
 };
 
 /**
@@ -145,7 +145,7 @@ exports.SetEffect = function (effect) {
  * Resets the console to the default values.
  */
 exports.Reset = function () {
-  process.stdout.write(`${ESC}${Colors.RESET}m`);
+  process.stdout.write(`${ESC}${exports.Colors.RESET}m`);
 };
 
 /**
@@ -215,8 +215,8 @@ exports.ClearScreen = function (mode) {
 /**
  * Clears the entire screen based on the mode.
  */
-exports.ClearScreen = function () {
-  ClearScreen(EraseMode.ALL);
+exports.Clear = function () {
+  exports.ClearScreen(exports.EraseMode.ALL);
 };
 
 /**

@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "ansi-lib": "file:../package"
+  }
+}

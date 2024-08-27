@@ -1,6 +1,6 @@
 {
   "name": "ansi-lib",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "An implementation of the ANSI Escape Codes for terminal",
   "main": "ansi_lib.js",
   "scripts": {},
@@ -19,4 +19,3 @@
   },
   "homepage": "https://github.com/Constantin-Alexandru/ANSI-Library#readme"
 }
-
